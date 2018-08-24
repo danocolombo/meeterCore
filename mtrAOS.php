@@ -93,49 +93,7 @@ class mConfig{
             $this->AOS[$pair[0]] = $pair[1];
         }
     }
-    public function loadPeepConfigFromDB($PID){
-        //===========================================================================
-        // this routine gets the AOS value for the user
-        // which is the confurationo of the current application.
-        //===========================================================================
-        $peopleAOS = "";
-        if ( isset( $connection ) ) return;
-        
-        mysqli_report(MYSQLI_REPORT_STRICT);
-        
-        define('DB_HOST', 'localhost');
-        define('DB_USER', 'dcolombo_muat');
-        define('DB_PASSWORD', 'MR0mans1212!');
-        define('DB_NAME', 'dcolombo_muat');
-        $mysqli = new mysqli(DB_HOST,DB_USER,DB_PASSWORD,DB_NAME);
-        $connection = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-        
-        // Check connection
-        if ($connection->connect_error) {
-            die("Connection failed: " . $connection->connect_error);
-        }
-        
-        $sql = "SELECT AOS FROM people WHERE ID = " . $PID;
-        $result = $connection->query($sql);
-        
-        if ($result->num_rows > 0) {
-            // output data of each row
-            while($row = $result->fetch_assoc()) {
-                $peopleAOS =  $row["AOS"];
-            }
-        } else {
-            echo "0 results";
-        }
-        $connection->close();
-        unset($this->peepAOS);
-        $this->peepAOS = array();
-        
-        $ref = explode("|", $peopleAOS);
-        for($il = 0; $il< sizeof($ref); $il++){
-            $pair = explode(":", $ref[$il]);
-            $this->peepAOS[$pair[0]] = $pair[1];
-        }
-    }
+
     
 
     public function saveConfigToDB(){
@@ -155,40 +113,12 @@ class mConfig{
                 die("Connection failed: " . $conn->connect_error);
             }
         
-            echo ">>$newConfig<<";
             $stmt = $connection->prepare("UPDATE Meeter SET AOS = ?");
             $stmt->bind_param("s", $newConfig);
             $stmt->execute();
             $stmt->close();
         } catch (PDOException $e) {
             echo "Error: [mtrAOS.php_saveConfigToDB()] " . $e->getMessage();
-        }
-        $connection = null;
-    }
-    public function savePeepConfigToDB($PID){
-        $newConfig = "";
-        foreach($this->peepAOS as $key => $value){
-            $newConfig = $newConfig . $key . ":" . $value . "|";
-        }
-        $newConfig = chop($newConfig,"|");
-        try {
-            define('DB_HOST', 'localhost');
-            define('DB_USER', 'dcolombo_muat');
-            define('DB_PASSWORD', 'MR0mans1212!');
-            define('DB_NAME', 'dcolombo_muat');
-            $connection = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-            // Check connection
-            if ($connection->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
-            }
-            
-            echo ">>$newConfig<<";
-            $stmt = $connection->prepare("UPDATE people SET AOS = ? WHERE ID =?");
-            $stmt->bind_param("ss", $newConfig, $PID);
-            $stmt->execute();
-            $stmt->close();
-        } catch (PDOException $e) {
-            echo "Error: [mtrAOS.php_savePeepConfigToDB()] " . $e->getMessage();
         }
         $connection = null;
     }

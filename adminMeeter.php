@@ -43,7 +43,11 @@ $mtrConfig->getLatestConfig();
 				      modal: true,
 				      buttons: {
 				        "Submit": function() {
-				          $( this ).dialog( "close" );
+				        	document.getElementById("adminMtrForm").submit();
+
+// 				        	var dest = "adminMeeterAction.php?Action=UpdateAOS";
+// 							window.location.href=dest;
+// 				          $( this ).dialog( "close" );
 				        },
 				        "Cancel": function() {
 					          $( this ).dialog( "close" );
@@ -80,7 +84,7 @@ $mtrConfig->getLatestConfig();
 				<a href="logout.php">[ LOGOUT ]</a>
 			</nav>
 			<article>
-				<form id="adminMtgForm" action="#" method="post">
+				<form id="adminMtrForm" action="adminMeeterAction.php?Action=UpdateAOS" method="post">
 				<H2>Meeter Meeting Configuration</H2>
 				<div>You can configure what features you want to manage simply by
 				clicking the checkbox and saving.</div>
@@ -185,34 +189,34 @@ $mtrConfig->getLatestConfig();
                     <p>
                     <?php 
                     if($aosConfig->getConfig("nursery") === "true"){
-                            echo "<input type=\"checkbox\" name=\"cbNursery\" value=\"Nursery\" id=\"cbNursery\" CHECKED>&nbsp;Nursery Numbers<br>";
+                            echo "<input type=\"checkbox\" name=\"cbNursery\" value=\"Nursery\" id=\"cbNursery\" CHECKED>&nbsp;Nursery Numbers<br/>";
                         }else{
-                            echo "<input type=\"checkbox\" name=\"cbNursery\" value=\"Nursery\" id=\"cbNursery\" >&nbsp;Nursery Numbers<br>";
+                            echo "<input type=\"checkbox\" name=\"cbNursery\" value=\"Nursery\" id=\"cbNursery\" >&nbsp;Nursery Numbers<br/>";
                         }
                         if($aosConfig->getConfig("nurseryFac") === "true"){
-                            echo "<input type=\"checkbox\" name=\"cbNurseryPeeps\" value=\"NurseryPeeps\" id=\"cbNurseryPeeps\" CHECKED>&nbsp;Nursery Contacts<hr/>";
+                            echo "<input type=\"checkbox\" name=\"cbNurseryFac\" value=\"NurseryFac\" id=\"cbNurseryFac\" CHECKED>&nbsp;Nursery Contacts<hr/>";
                         }else{
-                            echo "<input type=\"checkbox\" name=\"cbNurseryPeeps\" value=\"NurseryPeeps\" id=\"cbNurseryPeeps\" >&nbsp;Nursery Contacts<hr/>";
+                            echo "<input type=\"checkbox\" name=\"cbNurseryFac\" value=\"NurseryFac\" id=\"cbNurseryFac\" >&nbsp;Nursery Contacts<hr/>";
                         }
                         if($aosConfig->getConfig("children") === "true"){
                             echo "<input type=\"checkbox\" name=\"cbChildren\" value=\"Children\" id=\"cbChildren\" CHECKED>&nbsp;Children Numbers<br/>";
                         }else{
-                            echo "<input type=\"checkbox\" name=\"cbChildren\" value=\"Children\" id=\"cbChildren\" >&nbsp;Children Numbers<br/";
+                            echo "<input type=\"checkbox\" name=\"cbChildren\" value=\"Children\" id=\"cbChildren\" >&nbsp;Children Numbers<br/>";
                         }
                         if($aosConfig->getConfig("childrenFac") === "true"){
-                            echo "<input type=\"checkbox\" name=\"cbChildrenPeeps\" value=\"ChildrenPeeps\" id=\"cbChildrenPeeps\" CHECKED>&nbsp;Children Contacts<hr/>";
+                            echo "<input type=\"checkbox\" name=\"cbChildrenFac\" value=\"ChildrenFac\" id=\"cbChildrenFac\" CHECKED>&nbsp;Children Contacts<hr/>";
                         }else{
-                            echo "<input type=\"checkbox\" name=\"cbChildrenPeeps\" value=\"ChildrenPeeps\" id=\"cbChildrenPeeps\" >&nbsp;Children Contacts<hr/>";
+                            echo "<input type=\"checkbox\" name=\"cbChildrenFac\" value=\"ChildrenFac\" id=\"cbChildrenFac\" >&nbsp;Children Contacts<hr/>";
                         }
                         if($aosConfig->getConfig("youth") === "true"){
                             echo "<input type=\"checkbox\" name=\"cbYouth\" value=\"Youth\" id=\"cbYouth\" CHECKED>&nbsp;Youth Numbers<br/>";
                         }else{
-                            echo "<input type=\"checkbox\" name=\"cbYouth\" value=\"Youth\" id=\"cbYouth\" >&nbsp;Youth Numbers<br/";
+                            echo "<input type=\"checkbox\" name=\"cbYouth\" value=\"Youth\" id=\"cbYouth\" >&nbsp;Youth Numbers<br/>";
                         }
                         if($aosConfig->getConfig("youthFac") === "true"){
-                            echo "<input type=\"checkbox\" name=\"cbYouthPeeps\" value=\"YouthPeeps\" id=\"cbYouthPeeps\" CHECKED>&nbsp;Youth Contacts<hr/>";
+                            echo "<input type=\"checkbox\" name=\"cbYouthFac\" value=\"YouthFac\" id=\"cbYouthFac\" CHECKED>&nbsp;Youth Contacts<hr/>";
                         }else{
-                            echo "<input type=\"checkbox\" name=\"cbYouthPeeps\" value=\"YouthPeeps\" id=\"cbYouthPeeps\" >&nbsp;Youth Contacts<hr/>";
+                            echo "<input type=\"checkbox\" name=\"cbYouthFac\" value=\"YouthFac\" id=\"cbYouthFac\" >&nbsp;Youth Contacts<hr/>";
                         }
                     ?>
                     </p>
@@ -260,9 +264,9 @@ $mtrConfig->getLatestConfig();
                             echo "<input type=\"checkbox\" name=\"cbPrayer\" value=\"Prayer\" id=\"cbPrayer\" >&nbsp;Prayer Team<br>";
                         }
                         if($aosConfig->getConfig("specialEvents") === "true"){
-                            echo "<input type=\"checkbox\" name=\"cbSecurity\" value=\"Security\" id=\"cbSecurity\" CHECKED>&nbsp;Special Events Team<br>";
+                            echo "<input type=\"checkbox\" name=\"cbSpecialEvents\" value=\"SpecialEvents\" id=\"cbSpecialEvents\" CHECKED>&nbsp;Special Events Team<br>";
                         }else{
-                            echo "<input type=\"checkbox\" name=\"cbSecurity\" value=\"Security\" id=\"cbSecurity\" >&nbsp;Special Events Team<br>";
+                            echo "<input type=\"checkbox\" name=\"cbSpecialEvents\" value=\"SpecialEvents\" id=\"cbSpecialEvents\" >&nbsp;Special Events Team<br>";
                         }
                         if($aosConfig->getConfig("stepStudy") === "true"){
                             echo "<input type=\"checkbox\" name=\"cbStepStudy\" value=\"StepStudy\" id=\"cbStepStudy\" CHECKED>&nbsp;Step Study Teams<br>";
@@ -275,9 +279,9 @@ $mtrConfig->getLatestConfig();
                             echo "<input type=\"checkbox\" name=\"cbCRIMen\" value=\"CRIMen\" id=\"cbCRIMen\" >&nbsp;CRI Men Team<br>";
                         }
                         if($aosConfig->getConfig("criw") === "true"){
-                            echo "<input type=\"checkbox\" name=\"cbCRIWomen\" value=\"CRIMen\" id=\"cbCRIWomen\" CHECKED>&nbsp;CRI Women Team<br>";
+                            echo "<input type=\"checkbox\" name=\"cbCRIWomen\" value=\"CRIWomen\" id=\"cbCRIWomen\" CHECKED>&nbsp;CRI Women Team<br>";
                         }else{
-                            echo "<input type=\"checkbox\" name=\"cbCRIWomen\" value=\"CRIMen\" id=\"cbCRIWomen\" >&nbsp;CRI Women Team<br>";
+                            echo "<input type=\"checkbox\" name=\"cbCRIWomen\" value=\"CRIWomen\" id=\"cbCRIWomen\" >&nbsp;CRI Women Team<br>";
                         }
                     ?>
                     </p>
