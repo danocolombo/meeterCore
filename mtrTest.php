@@ -1,5 +1,5 @@
 <?php
-include 'mtrAOS.php';
+include 'peopleAOS.php';
 
 
 
@@ -16,14 +16,24 @@ include 'mtrAOS.php';
 // $aosConfig->addConfig("boss", "false");
 // $aosConfig->showConfig();
 
-$aosConfig->loadConfigFromDB();
-echo "FROM DB...<br/>";
-$aosConfig->showConfig();
-// echo "<br\>now change to...<br/>";
-
-$aosConfig->addConfig("meal", "true");
+// echo "FROM DB...<br/>";
 // $aosConfig->showConfig();
-$aosConfig->saveConfigToDB();
+// // echo "<br\>now change to...<br/>";
+
+// $aosConfig->addConfig("meal", "true");
+// // $aosConfig->showConfig();
+// $aosConfig->saveConfigToDB();
+
+// PIDs...
+//  1   Dano
+//  29  Missy
+//  34  Billy
+//  57  Andy
+$PID = 1;
+$aosPeepConfig->loadDisplayAOS($PID);
+$aosPeepConfig->showAllAOSValues($PID);
+
+
 
 
 
