@@ -31,7 +31,10 @@ include 'peopleAOS.php';
 //  57  Andy
 $PID = 1;
 $aosPeepConfig->loadDisplayAOS($PID);
-$aosPeepConfig->showAllAOSValues($PID);
+
+foreach($aosPeepConfig->displayAOS as $key => $value){
+    echo "$key: $value<br/>";
+}
 
 
 

@@ -19,7 +19,7 @@ class mConfig{
         if(array_key_exists($setting, $this->AOS)){
             return $this->AOS[$setting];
         }else{
-            echo "NO, we don\'t have " . $setting . "<br/>";
+//             echo "NO, we don\'t have " . $setting . "<br/>";
             return false;
         }
     }
@@ -52,7 +52,7 @@ class mConfig{
         // this routine opens up the meeter system table and gets the AOS value, 
         // which is the confurationo of the current application.
         //===========================================================================
-        $systemAOS = "";     
+        $newAOS = "";     
         if ( isset( $connection ) ) return;
         
         mysqli_report(MYSQLI_REPORT_STRICT);
@@ -75,16 +75,16 @@ class mConfig{
         if ($result->num_rows > 0) {
             // output data of each row
             while($row = $result->fetch_assoc()) {
-                $systemAOS =  $row["AOS"];
+                $newAOS =  $row["AOS"];
             }
         } else {
             echo "0 results";
         }
         $connection->close();
-        unset($this->AOS);
+        unset($this->systemAOS);
         $this->systemAOS = array();
  
-        $ref = explode("|", $systemAOS);
+        $ref = explode("|", $newAOS);
         for($il = 0; $il< sizeof($ref); $il++){
             $pair = explode(":", $ref[$il]);
             $this->systemAOS[$pair[0]] = $pair[1];
@@ -112,9 +112,8 @@ class mConfig{
             die("Connection failed: " . $connection->connect_error);
         }
         
-        $sql = "SELECT AOS FROM people WHERE ID = " . $MID;
+        $sql = "SELECT AOS FROM people WHERE ID = " . $PID;
         $result = $connection->query($sql);
-        
         if ($result->num_rows > 0) {
             // output data of each row
             while($row = $result->fetch_assoc()) {
@@ -132,6 +131,7 @@ class mConfig{
             $pair = explode(":", $ref[$il]);
             $this->AOS[$pair[0]] = $pair[1];
         }
+        
     }
 
     public function saveConfigToDB($PID){
@@ -163,10 +163,11 @@ class mConfig{
     public function showAllAOSValues($PID){
         // load system and people AOS, display both
         //================================================
-        $this->loadConfigFromDB($PID);
-        $this->loadSystemConfigFromDB();
+//         $this->loadConfigFromDB($PID);
+//         $this->loadSystemConfigFromDB();
         echo "<br/>\$PID: $PID";
         echo "<br/>\$AOS:<br/>";
+        echo "==========================<br/>";
         if(count($this->AOS)>0){
             foreach($this->AOS as $key => $value){
 //                 $newConfig = $newConfig . $key . ":" . $value . "|";
@@ -176,7 +177,8 @@ class mConfig{
             echo "no settings for user<br/>";
         }
         //now show both AOS arrays:
-        echo "\$systemAOS:<br/>";
+        echo "<br/>\$systemAOS:<br/>";
+        echo "==========================<br/>";
         if(count($this->systemAOS)>0){
             foreach($this->systemAOS as $key => $value){
                 //                 $newConfig = $newConfig . $key . ":" . $value . "|";
@@ -186,7 +188,8 @@ class mConfig{
             echo "no settings for system<br/>";
         }
         //now show displayAOS
-        echo "\$displayAOS:<br/>";
+        echo "<br/>\$displayAOS:<br/>";
+        echo "==========================<br/>";
         if(count($this->displayAOS)>0){
             foreach($this->displayAOS as $key => $value){
                 //                 $newConfig = $newConfig . $key . ":" . $value . "|";
@@ -202,11 +205,10 @@ class mConfig{
         $this->loadConfigFromDB($PID);
         //get the lastest syste AOS
         $this->loadSystemConfigFromDB();
-        
-        if(count($this->peepAOS)<1){
+        if(count($this->AOS)<1){
             //just load the display with the system AOS and set values ot false
             foreach($this->systemAOS as $key => $value){
-                if($vaue == "true"){
+                if($value == "true"){
                     //the admin wants to manage this value
                     $this->displayAOS[$key] = "false";
                 }
@@ -218,10 +220,12 @@ class mConfig{
                 //all values in personal AOS indicate true, so if the
                 //system AOS is in the personal AOS, set the displayAOS
                 //to true
-                if(array_key_exists($key, $this->AOS)){
-                    $this->displayAOS[$key] = "true";
-                }else{
-                    $this->displayAOS[$key] = "false";
+                if($value == "true"){
+                    if ($this->doesSettingExist($key)){
+                        $this->displayAOS[$key] = "true";
+                    }else{
+                            $this->displayAOS[$key] = "false";
+                    }
                 }
             }
         }
