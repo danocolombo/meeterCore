@@ -1,9 +1,8 @@
 <?php
-include 'peopleAOS.php';
+include 'mtrAOS.php';
 
-
-
-// $aosConfig->getConfig("greeter");
+$aosConfig->loadConfigFromDB;
+$aosConfig->showConfig();
 // $aosConfig->getConfig("teaching");
 // $aosConfig->checkBConfig("meal");
 // $aosConfig->checkBConfig("chips");
@@ -29,12 +28,12 @@ include 'peopleAOS.php';
 //  29  Missy
 //  34  Billy
 //  57  Andy
-$PID = 1;
-$aosPeepConfig->loadDisplayAOS($PID);
+// $PID = 1;
+// $aosPeepConfig->loadDisplayAOS($PID);
 
-foreach($aosPeepConfig->displayAOS as $key => $value){
-    echo "$key: $value<br/>";
-}
+// foreach($aosPeepConfig->displayAOS as $key => $value){
+//     echo "$key: $value<br/>";
+// }
 
 
 
