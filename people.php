@@ -2,9 +2,8 @@
 require_once('authenticate.php'); /* used for security purposes */
 include 'database.php';
 include 'meeter.php';
-include 'meeterAOS.php';
-global $AOS;
-$AOS = new mAOS();
+include 'peopleAOS.php';
+
 
 global $person;
 $person = new MeeterPeep();
@@ -144,6 +143,7 @@ $Action = $_GET["Action"];
 $Destination = $_GET["Destination"];
 $Origin = $_GET["Origin"];
 $ID = $_GET["ID"];
+$PID = $_GET["PID"];
 
 switch ("$Action"){     
     case "Edit":
@@ -277,7 +277,7 @@ function showForm($action, $origin, $destination, $ID){
      */
     /* echo "showForm(" . $action . ", " . $origin . ", " . $destination . ")"; */
     $PID = $_GET["PID"];
-
+    
     include 'database.php';
    
    if($connection->errno > 0){
@@ -376,6 +376,9 @@ function showForm($action, $origin, $destination, $ID){
     global $person;
     $person->getPerson($PID);
 //     $daPeep->setInterests($interests);
+    global $peepAOS;
+    $peepAOS= new mConfig();
+    $peepAOS->loadDisplayAOS($PID);
     
     echo "<form id='peepForm' action='" . $dest . "' method='post'>";
     echo "<center><h2>CR Personnel Form</h2></center>";
@@ -410,161 +413,20 @@ function showForm($action, $origin, $destination, $ID){
     echo "<table border='0'>";                     //table formatting interests
     echo "<tr><td colspan='2' align='center'><strong>Areas of Interest</strong></td></tr>";
     echo "</td></tr>";
-    //===========================================================================
-    // display all the managed service areas, even if they are not all used.
-    //===========================================================================
-    // Setup
-    // TearDown
-    // AV
-    // Worship **
-    // Greeters
-    // Resources
-    // Meal Coordinator
-    // Transportation
-    // Reader
-    // Announcements
-    // Chips
-    // Serenity Prayer
-    // Nursery Coordinator
-    // Children Coordinator
-    // Youth Coordinator
-    // Cafe Coordinator
-    // Security **
-    
-    // OLD AREAS not listed above
-    // Fellowship
-    // Teaching
-    // Prayer Team
-    // Newcomers
-    // Special Events
-    // Small Group Facilitators
-    // Step Study Team
-    // CRI Men
-    // CRI Women
-   
-    global $AOS
-    $AOS = new mAOS();
-    
-    //Fellowship:True|Prayer:True|Newcomers:True|Greeting:True|SpecialEvents:True|Resources|True|SmallGroup:True|StepStudy:True|Transportation:True|Worship:True|Youth:True|Children:True|Cafe:True|Meal:True|CRIM:False|CRIW:False|Teaching:True|Chips:True<<
-    
-    
-    if($person->evalAOS("Setup") === TRUE){
-        echo "<tr><td align='right'>Setup:&nbsp;</td><td><input type='checkbox' id='cbSetup' name='cbSetup' checked>&nbsp;</td></tr>";
-    }else{
-        echo "<tr><td align='right'>Setup:&nbsp;</td><td><input type='checkbox' id='cbSetup' name='cbSetup'>&nbsp;</td></tr>";
+    /* =======================================================
+     * the values listed to volunteer/serve in are based on the Meeter configuration stored in the
+     * database Meeter["AOS"].  Then the values are based on whether the PID has any of the
+     * managed fields selected in the people table AOS setting.
+     ========================================================*/
+    foreach($peepAOS->displayAOS as $key => $value){
+        //display the configured settings from the database along with the user settings
+        if($value == "true"){
+            echo "<tr><td align='right'>$key:&nbsp;</td><td><input type='checkbox' id='cb$key' name='cb$key' checked>&nbsp;</td></tr>";
+        }else {
+            echo "<tr><td align='right'>$key:&nbsp;</td><td><input type='checkbox' id='cb$key' name='cb$key'>&nbsp;</td></tr>";
+        }
     }
-    if($person->evalAOS("TearDown") == TRUE){
-        echo "<tr><td align='right'>TearDown/Clean-up:&nbsp;</td><td><input type='checkbox' id='cbTearDown' name='cbTearDown' checked>&nbsp;</td></tr>";
-    }else{
-        echo "<tr><td align='right'>TearDown/Clean-up:&nbsp;</td><td><input type='checkbox' id='cbTearDown' name='cbTearDown'>&nbsp;</td></tr>";
-    }
-    if($person->evalAOS("AV") == TRUE){
-        echo "<tr><td align='right'>Audio/Visual:&nbsp;</td><td><input type='checkbox' id='cbAV' name='cbAV' checked>&nbsp;</td></tr>";
-    }else{
-        echo "<tr><td align='right'>Audio/Visual:&nbsp;</td><td><input type='checkbox' id='cbAV' name='cbAV'>&nbsp;</td></tr>";
-    }
-    
-    if($person->evalAOS("Worship") == TRUE ){
-        
-        echo "<tr><td align='right'>Worship Leader:&nbsp;</td><td><input type='checkbox' id='cbWorship' name='cbWorship' checked>&nbsp;</td></tr>";
-    }else{
-        echo "<tr><td align='right'>Worship Leader:&nbsp;</td><td><input type='checkbox' id='cbWorship' name='cbWorship'>&nbsp;</td></tr>";
-    }
-    if($person->evalAOS("Greeting") == TRUE){
-        echo "<tr><td align='right'>Greeter:&nbsp;</td><td><input type='checkbox' id='cbGreeter' name='cbGreeter' checked>&nbsp;</td></tr>";
-    }else{
-        echo "<tr><td align='right'>Greeter:&nbsp;</td><td><input type='checkbox' id='cbGreeter' name='cbGreeter'>&nbsp;</td></tr>";
-    }
-    if($person->evalAOS("Fellowship") == TRUE){
-        echo "<tr><td align='right'>Fellowship:&nbsp;</td><td><input type='checkbox' id='cbFellowship' name='cbFellowship' checked>&nbsp;</td></tr>";
-    }else{
-        echo "<tr><td align='right'>Fellowship:&nbsp;</td><td><input type='checkbox' id='cbFellowship' name='cbFellowship'>&nbsp;</td></tr>";
-    }
-    if($person->evalAOS("Teaching") == TRUE){
-        echo "<tr><td align='right'>Teaching Team:&nbsp;</td><td><input type='checkbox' id='cbTeaching' id='cbTeaching' name='peepTeachingTeam' checked></td></tr>";
-    }else{
-        echo "<tr><td align='right'>Teaching Team:&nbsp;</td><td><input type='checkbox' id='cbTeaching' id='cbTeaching' name='peepTeachingTeam'></td></tr>";
-    }
-    if($person->evalAOS("Prayer") == TRUE){
-        echo "<tr><td align='right'>Prayer Team: </td><td><input type='checkbox' id='cbPrayer' name='cbPrayer' checked></td></tr>";
-    }else{
-        echo "<tr><td align='right'>Prayer Team: </td><td><input type='checkbox' id='cbPrayer' name='cbPrayer'></td></tr>";
-    }
-    
-    if($person->evalAOS("Newcomers") == TRUE){
-        echo "<tr><td align='right'>Newcomers/101: </td><td><input type='checkbox' id='cbNewcomers' name='cbNewcomers' checked></td></tr>";
-    }else{
-        echo "<tr><td align='right'>Newcomers Team: </td><td><input type='checkbox' id='cbNewcomers' name='cbNewcomers'></td></tr>";
-    }
-    if($person->evalAOS("SpecialEvents") == TRUE){
-        echo "<tr><td align='right'>Special Events Team: </td><td><input type='checkbox' id='cbSpecialEvents' name='cbSpecialEvents' checked></td></tr>";
-    }else{
-        echo "<tr><td align='right'>Special Events Team: </td><td><input type='checkbox' id='cbSpecialEvents' name='cbSpecialEvents' ></td></tr>";
-    }
-    if($person->evalAOS("Resources") == TRUE){
-        echo "<tr><td align='right'>Resources Team: </td><td><input type='checkbox' id='cbResources' name='cbResources' checked ></td></tr>";
-    }else{
-        echo "<tr><td align='right'>Resources Team: </td><td><input type='checkbox' id='cbResources' name='cbResources' ></td></tr>";
-    }
-    
-    if($person->evalAOS("SmallGroup") == TRUE){
-        echo "<tr><td align='right'>Small Group Team: </td><td><input type='checkbox' id='cbSmallGroup' name='cbSmallGroup' checked></td></tr>";
-    }else{
-        echo "<tr><td align='right'>Small Group Team: </td><td><input type='checkbox' id='cbSmallGroup' name='cbSmallGroup'></td></tr>";
-    }
-    if($person->evalAOS("StepStudy") == TRUE){
-        echo "<tr><td align='right'>Step Study Team: </td><td><input type='checkbox' id='cbStepStudy' name='cbStepStudy' checked></td></tr>";
-    }else{
-        echo "<tr><td align='right'>Step Study Team: </td><td><input type='checkbox' id='cbStepStudy' name='cbStepStudy'></td></tr>";
-    } 
-    
-    if($person->evalAOS("Transportation") == TRUE){
-        echo "<tr><td align='right'>Transportation Team: </td><td><input type='checkbox' id='cbTransportation' name='cbTransportation' checked></td></tr>";
-    }else{
-        echo "<tr><td align='right'>Transportation Team: </td><td><input type='checkbox' id='cbTransportation' name='cbTransportation' ></td></tr>";
-    }
-    if($person->evalAOS("Youth") == TRUE){
-        echo "<tr><td align='right'>Youth Team: </td><td><input type='checkbox' id='cbYouth' name='cbYouth' checked></td></tr>";
-    }else{
-        echo "<tr><td align='right'>Youth Team: </td><td><input type='checkbox' id='cbYouth' name='cbYouth'></td></tr>";
-    }
-   if($person->evalAOS("Children") == TRUE){
-        echo "<tr><td align='right'>Children Team: </td><td><input type='checkbox' id='cbChildren' name='cbChildren' checked></td></tr>";
-    }else{
-        echo "<tr><td align='right'>Children Team: </td><td><input type='checkbox' id='cbChildren' name='cbChildren' ></td></tr>";
-    }
-    if($person->evalAOS("Nursery") == TRUE){
-        echo "<tr><td align='right'>Nursery Team: </td><td><input type='checkbox' id='cbNursery' name='cbNursery' checked></td></tr>";
-    }else{
-        echo "<tr><td align='right'>Nursery Team: </td><td><input type='checkbox' id='cbNursery' name='cbNursery' ></td></tr>";
-    }
-    if($person->evalAOS("Cafe") == TRUE){
-        echo "<tr><td align='right'>Cafe Team: </td><td><input type='checkbox' id='cbCafe' name='cbCafe' checked></td></tr>";
-    }else{
-        echo "<tr><td align='right'>Cafe Team:</td><td><input type='checkbox' id='cbCafe' name='cbCafe'></td></tr>";
-    }
-   if($person->evalAOS("Meal") == TRUE){
-        echo "<tr><td align='right'>Meal Team:</td><td><input type='checkbox' id='cbMeal' name='cbMeal' checked></td></tr>";
-    }else{
-        echo "<tr><td align='right'>Meal Team:</td><td><input type='checkbox' id='cbMeal' name='cbMeal'></td></tr>";
-    }
-    if($person->evalAOS("Chips") == TRUE){
-        echo "<tr><td align='right'>Chips:&nbsp;</td><td><input type='checkbox' id='cbChips' name='peepChips' checked></td></tr>";
-    }else{
-        echo "<tr><td align='right'>Chips:&nbsp;</td><td><input type='checkbox' id='cbChips' name='cbChips' ></td></tr>";
-    }
-    if($person->evalAOS("CRIM") == TRUE){
-        echo "<tr><td align='right'>CRI: Men:</td><td><input type='checkbox' id='cbCRIM' name='cbCRIM' checked></td></tr>";
-    }else{
-        echo "<tr><td align='right'>CRI: Men:</td><td><input type='checkbox' id='cbCRIM' name='cbCRIM'></td></tr>";
-    }
-    if($person->evalAOS("CRIW") == TRUE){
-        echo "<tr><td align='right'>CRI: Women:</td><td><input type='checkbox' id='cbCRIW' name='cbCRIW' checked></td></tr>";
-    }else{
-        echo "<tr><td align='right'>CRI: Women:</td><td><input type='checkbox' id='cbCRIW' name='cbCRIW' ></td></tr>";
-    }
-    echo "<tr><td aiign='right'><button type='button' id='selectBtn' onclick='SelectAllInterests()'>Check All</button>&nbsp;&nbsp;
-        <button type='button' id='selectBtn' onclick='SelectNoInterests()'>Clear All</button></td></tr>";       
+
     echo "</table>";          //closes table formatting interests
     echo "</td></tr></table>"; //closes table around interests
     

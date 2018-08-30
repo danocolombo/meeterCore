@@ -26,9 +26,25 @@ class mConfig{
     public function showConfig(){
         var_dump($this->AOS);
     }
+    public function showNewAndUser(){
+        echo "<strong>NEW</strong><br/>";
+        var_dump($this->systemAOS);
+        echo "<br/>";
+        echo "<strong>LEGACY</strong><br/>";
+        var_dump($this->AOS);
+        echo "<br/>";
+    }
 
     public function doesSettingExist($s){
         if(array_key_exists($s, $this->AOS)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    public function legacySettingInSystemAOS($s){
+        if(array_key_exists($s, $this->systemAOS)){
             return true;
         }else{
             return false;

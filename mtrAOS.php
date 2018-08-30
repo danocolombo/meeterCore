@@ -1,5 +1,15 @@
 <?php
-
+/* ------------------------------------------------
+ *  mtrAOS.php
+ *  
+ *  1.0 read from database table Meeter the AOS value
+ *       this was merely key:value definition
+ *       
+ *   1.1 this update gets the data as before, but now the
+ *        values are extended to provide display info
+ *        key:value#displayValue
+ *  
+ */
 
 class mConfig{
     public $AOS = array();      //system values
@@ -14,7 +24,9 @@ class mConfig{
         }
     }
     public function showConfig(){
-        var_dump($this->AOS);
+        foreach($this->AOS as $key => $value){
+            echo "$value : $value<br/>";
+        }
     }
 
     public function doesSettingExist($s){
@@ -33,7 +45,10 @@ class mConfig{
     }
     
     public function setConfigToFalse($s){
-        $this->AOS[$s] = "false";
+        // we need to get the value of $s then strip the display off, insert the value and then save
+        $tmp[] = explode("#", $this->AOS[$s]);
+        $newValue = "false#" . $tmp[1];
+        $this->AOS[$s] = $newValue;
     }
     public function setPeepConfigToFalse($s){
         $this->peepAOS[$s] = "false";

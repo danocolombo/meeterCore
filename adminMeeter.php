@@ -100,6 +100,7 @@ $mtrConfig->getLatestConfig();
                     // get fresh data to begin
                     //===========================
                     $aosConfig->loadConfigFromDB();
+                    
                     if($aosConfig->getConfig("setup") === "true"){
                         echo "<input type=\"checkbox\" name=\"cbSetup\" value=\"Setup\" id=\"cbSetup\" CHECKED>&nbsp;Setup<br>";
                     }else{

@@ -1,11 +1,12 @@
 <?php
 include 'mtgRedirects.php';
 include 'database.php';
-header("Expires: 0");
-header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
+include 'peopleAOS.php';
+// header("Expires: 0");
+// header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+// header("Cache-Control: no-store, no-cache, must-revalidate");
+// header("Cache-Control: post-check=0, pre-check=0", false);
+// header("Pragma: no-cache");
 /*
  * peepAction.php
  */
@@ -130,24 +131,11 @@ function updatePeepRecord(){
     $AreasServed = $_POST["peepAreasServed"];
     $JoyAreas = $_POST["peepJoyAreas"];
     $ReasonsToServe = $_POST["peepReasonsToServe"];
-    $FellowshipTeam = $_POST["peepFellowshipTeam"];
-    $TeachingTeam = $_POST["peepTeachingTeam"];
-    $PrayerTeam = $_POST["peepPrayerTeam"];
-    $NewcomersTeam = $_POST["peepNewcomersTeam"];
-    $GreetingTeam = $_POST["peepGreetingTeam"];
-    $SpecialEventsTeam = $_POST["peepSpecialEventsTeam"];
-    $ResourceTeam = $_POST["peepResourceTeam"];
-    $SmallGroupTeam = $_POST["peepSmallGroupTeam"];
-    $StepStudyTeam = $_POST["peepStepStudyTeam"];
-    $TransportationTeam = $_POST["peepTransportationTeam"];
-    $WorshipTeam = $_POST["peepWorshipTeam"];
-    $LandingTeam = $_POST["peepLandingTeam"];
-    $CelebrationPlaceTeam = $_POST["peepCelebrationPlaceTeam"];
-    $SolidRockTeam = $_POST["peepSolidRockTeam"];
-    $MealTeam = $_POST["peepMealTeam"];
-    $Chips = $_POST["peepChips"];
-    $CRImen = $_POST["peepCRImen"];
-    $CRIwomen = $_POST["peepCRIwomen"];
+   /* -------------------------------------------------------------------
+    * there will be checkboxes that are dynamically provided,
+    * we will just get the data as we loop through to build update
+    * sql command.
+    ======================================*/
     
     $Notes = $_POST["peepNotes"];
     $Active = $_POST["peepActive"];
@@ -203,109 +191,114 @@ function updatePeepRecord(){
       echo "Failed to connect to MySQL: " . mysqli_connect_error();
     }
     mysqli_query($con,$sql);
-    mysqli_close($con);
+   
     
     /* ---------------------------------------------------
-     * now build another SQL statement
-     * ---------------------------------------------------
-     */
-    $sql = "UPDATE people SET";
-    if ($FellowshipTeam == "on"){
-        $sql = $sql . " FellowshipTeam='1', ";
-    }else{
-        $sql = $sql . " FellowshipTeam='0', ";
-    }
-    if ($TeachingTeam == "on"){
-        $sql = $sql . " TeachingTeam='1', ";
-    }else{
-        $sql = $sql . " TeachingTeam='0', ";
-    }
-    if ($PrayerTeam == "on"){
-        $sql = $sql . " PrayerTeam='1', ";
-    }else{
-        $sql = $sql . " PrayerTeam='0', ";
-    }
-    if ($NewcomersTeam == "on"){
-        $sql = $sql . " NewcomersTeam='1', ";
-    }else{
-        $sql = $sql . " NewcomersTeam='0', ";
-    }
-    if ($GreetingTeam == "on"){
-        $sql = $sql . " GreetingTeam='1', ";
-    }else{
-        $sql = $sql . " GreetingTeam='0', ";
-    }
-    if ($SpecialEventsTeam == "on"){
-        $sql = $sql . " SpecialEventsTeam='1', ";
-    }else{
-        $sql = $sql . " SpecialEventsTeam='0', ";
-    }
-    if ($ResourceTeam == "on"){
-        $sql = $sql . " ResourceTeam='1', ";
-    }else{
-        $sql = $sql . " ResourceTeam='0', ";
-    }
-    if ($SmallGroupTeam == "on"){
-        $sql = $sql . " SmallGroupTeam='1', ";
-    }else{
-        $sql = $sql . " SmallGroupTeam='0', ";
-    }
-    if ($StepStudyTeam == "on"){
-        $sql = $sql . " StepStudyTeam='1', ";
-    }else{
-        $sql = $sql . " StepStudyTeam='0', ";
-    }
-    if ($TransportationTeam == "on"){
-        $sql = $sql . " TransportationTeam='1', ";
-    }else{
-        $sql = $sql . " TransportationTeam='0', ";
-    }
-    if ($WorshipTeam == "on"){
-        $sql = $sql . " WorshipTeam='1', ";
-    }else{
-        $sql = $sql . " WorshipTeam='0', ";
-    }
-    if ($LandingTeam == "on"){
-        $sql = $sql . " LandingTeam='1', ";
-    }else{
-        $sql = $sql . " LandingTeam='0', ";
-    }
-    if ($CelebrationPlaceTeam == "on"){
-        $sql = $sql . " CelebrationPlaceTeam='1', ";
-    }else{
-        $sql = $sql . " CelebrationPlaceTeam='0', ";
-    }
-    if ($SolidRockTeam == "on"){
-        $sql = $sql . " SolidRockTeam='1', ";
-    }else{
-        $sql = $sql . " SolidRockTeam='0', ";
-    }
-    if ($MealTeam == "on"){
-        $sql = $sql . " MealTeam='1',";
-    }else{
-        $sql = $sql . " MealTeam='0',";
-    }
-    if ($Chips == "on"){
-        $sql = $sql . " Chips='1',";
-    }else{
-        $sql = $sql . " Chips='0',";
-    }
-    if ($CRImen == "on"){
-        $sql = $sql . " CRImen='1',";
-    }else{
-        $sql = $sql . " CRImen='0',";
-    }
-    if ($CRIwomen == "on"){
-        $sql = $sql . " CRIwomen='1'";
-    }else{
-        $sql = $sql . " CRIwomen='0'";
-    }
-    $sql = $sql . " WHERE ID ='" . $PID . "'";
+     * now build another SQL statement for AOS update
+     * --------------------------------------------------*/
+    // get system AOS and loop though getting checkbox values from form
+    $aosPeepConfig = new mConfig();
+    $aosPeepConfig->loadSystemConfigFromDB();
+    $aosPeepConfig->loadConfigFromDB($PID);
     
-    /* ------------------------------------
-     * now head out of here....
-     * ------------------------------------
-     */
+    //we will build a string array of thall the checkbox settings and save to db
+    $newConfig = "";
+    $first = true;
+    foreach($aosPeepConfig->systemAOS as $key => $value){
+        //loop each configuration value, getting ONLY the values checked and save to newConfig
+        
+        $cbString = "cb" .  $key;
+        if (empty($_POST[$cbString])){
+        }else{
+            //will save the setting, need to strip off the "cb" 
+            $newConfig[substr($cbString, 2)] = "true";
+//             $newConfig[$cbString] = "true";
+        }
+    }
+//    echo "NOW: " . date("h:i:sa") . "<br/>";
+//    echo "<br/>\$displayAOS <br/>--------------------------------------<br/>";
+//    foreach ($aosPeepConfig->displayAOS as $key => $value){
+//        echo "\$key: $key   \$value: $value<br/>";
+//    }
+//    echo "<br/>\$newConfig <br/>--------------------------------------<br/>";
+//    foreach ($newConfig as $key => $value){
+//        echo "\$key: $key   \$value: $value<br/>";
+//    }
+    // now we need to append any legacy settings from the people setting that are not included
+//     echo "<br/>-----------------<br/>";
+//     echo "stored user AOS values<br/>";
+    
+    foreach($aosPeepConfig->AOS as $key => $value){
+//         echo "$key:$value<br/>";
+        
+        //loop through the systemAOS, and if the value is true, then use the form values, if it is false, add to newAOS.
+        forEach($aosPeepConfig->systemAOS as $sysKey => $sysValue){
+            if ($key == $sysKey){
+                if($sysValue == "false"){
+//                     echo "$key not on form. adding to list to preserve for future<br/>";
+                    $newConfig[$key] = "true";
+                }
+            }
+        }
+        
+        
+//             if($aosPeepConfig->legacySettingInSystemAOS($key)){
+//             echo "it is in system AOS, letting form settings update personal info<br/>";
+//         }else{
+//             echo "$key is not accounted for. adding to list to preserve for future<br/>";
+//             $newConfig[$key] = "true";
+//         }
+        
+        
+        
+//         if(array_key_exists($key, $newConfig)){
+//             echo "key is accounted for in newConfig. Ignoring.<br/>";  
+//         }else{
+ 
+//             echo "$key is not in newAOS, would add to the AOS to save<br/>";
+//             $newConfig[$key] = "true";
+//         }
+        
+   }
+//    echo "<br/>RESULTANT UPDATE THAT WOULD BE NEW USER AOS<br/>";
+//    var_dump($newConfig);
+//    $aosPeepConfig->showNewAndUser();
+   
+   
+        //save the newConfig value to the people database
+        //----------------------------------------------------------------
+       $newValue = ""; 
+       $first = true;
+   foreach($newConfig AS $key=>$value){
+       if ($first){
+           $newValue = $key . ":" . $value;
+           $first=false;
+       }else{
+           $newValue .= "|" . $key . ":" . $value;
+       }
+   }
+    try {
+        $stmt = $con->prepare("UPDATE people SET AOS = ? WHERE ID = ?");
+        $stmt->bind_param("ss", $newValue, $PID);
+        $stmt->execute();
+        
+        $stmt->close();
+    } catch (PDOException $e) {
+        echo "Error: [peepAction.php_updatePeepRecord()] " . $e->getMessage();
+    }
+    
+    $con = null;
+    
+    
+    
+    
+    
+    
+    
+//     /* ------------------------------------
+//      * now head out of here....
+//      * ------------------------------------
+//      */
     $tmp = "people.php";
     executeSQL($sql, $tmp);
     //testSQL($sql);
