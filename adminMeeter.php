@@ -100,46 +100,65 @@ $mtrConfig->getLatestConfig();
                     // get fresh data to begin
                     //===========================
                     $aosConfig->loadConfigFromDB();
+                    echo "<table>";
+                    echo "<tr><td>Configuration</td><td>Display Text</td></tr>";
                     if($aosConfig->getConfig("setup") === "true"){
-                        echo "<input type=\"checkbox\" name=\"cbSetup\" value=\"Setup\" id=\"cbSetup\" CHECKED>&nbsp;Setup<br>";
+                        echo "<tr><td><input type=\"checkbox\" name=\"cbSetup\" value=\"Setup\" id=\"cbSetup\" CHECKED>&nbsp;Setup</td>";
+                        echo "<td><input type=\"text\" name=\"tbSetup\" value=\"" . $aosConfig->getDisplayString("setup") . "\"></td></tr>";
                     }else{
-                        echo "<input type=\"checkbox\" name=\"cbSetup\" value=\"Setup\" id=\"cbSetup\">&nbsp;Setup<br>";
+                        echo "<tr><td><input type=\"checkbox\" name=\"cbSetup\" value=\"Setup\" id=\"cbSetup\">&nbsp;Setup</td>";
+                        echo "<td><input type=\"text\" name=\"tbSetup\" value=\"" . $aosConfig->getDisplayString("setup") . "\"></td></tr>";
                     }
                     if($aosConfig->getConfig("worship") === "true"){
-                        echo "<input type=\"checkbox\" name=\"cbWorship\" value=\"Worship\" id=\"cbWorship\" CHECKED>&nbsp;Worship/Music/Band<br>";
+                        echo "<tr><td><input type=\"checkbox\" name=\"cbWorship\" value=\"Worship\" id=\"cbWorship\" CHECKED>&nbsp;Worship</td>";
+                        echo "<td><input type=\"text\" name=\"tbWorship\" value=\"" . $aosConfig->getDisplayString("worship") . "\"></td></tr>";
                     }else{
-                        echo "<input type=\"checkbox\" name=\"cbWorship\" value=\"Worship\" id=\"cbWorship\">&nbsp;Worship/Music/Band<br>";
+                        echo "<tr><td><input type=\"checkbox\" name=\"cbWorship\" value=\"Worship\" id=\"cbWorship\">&nbsp;Worship</td>";
+                        echo "<td><input type=\"text\" name=\"tbWorship\" value=\"" . $aosConfig->getDisplayString("worship") . "\"></td></tr>";
                     }
                     if($aosConfig->getConfig("av") === "true"){
-            		      echo "<input type=\"checkbox\" name=\"cbAV\" value=\"AV\" id=\"cbAV\" CHECKED>&nbsp;Audio/Visual<br>";
+                        echo "<tr><td><input type=\"checkbox\" name=\"cbAV\" value=\"AV\" id=\"cbAV\" CHECKED>&nbsp;Audio/Visual</td>";
+                        echo "<td><input type=\"text\" name=\"tbAV\" value=\"" . $aosConfig->getDisplayString("av") . "\"></td></tr>";
                     }else{
-                        echo "<input type=\"checkbox\" name=\"cbAV\" value=\"AV\" id=\"cbAV\">&nbsp;Audio/Visual<br>";
+                        echo "<tr><td><input type=\"checkbox\" name=\"cbAV\" value=\"AV\" id=\"cbAV\">&nbsp;Audio/Visual</td>";
+                        echo "<td><input type=\"text\" name=\"tbAV\" value=\"" . $aosConfig->getDisplayString("av") . "\"></td></tr>";
             		}
             		if($aosConfig->getConfig("greeter") === "true"){
-            		    echo "<input type=\"checkbox\" name=\"cbGreeters\" value=\"Greeters\" id=\"cbGreeters\" CHECKED >&nbsp;Greeters<br>";
+            		    echo "<tr><td><input type=\"checkbox\" name=\"cbGreeters\" value=\"Greeter\" id=\"cbGreeters\" CHECKED>&nbsp;Greeters</td>";
+            		    echo "<td><input type=\"text\" name=\"tbGreeters\" value=\"" . $aosConfig->getDisplayString("greeter") . "\"></td></tr>";
             		}else{
-            		    echo "<input type=\"checkbox\" name=\"cbGreeters\" value=\"Greeters\" id=\"cbGreeters\">&nbsp;Greeters<br>";
+            		    echo "<tr><td><input type=\"checkbox\" name=\"cbGreeters\" value=\"Greeter\" id=\"cbGreeters\">&nbsp;Greeters</td>";
+            		    echo "<td><input type=\"text\" name=\"tbGreeters\" value=\"" . $aosConfig->getDisplayString("greeter") . "\"></td></tr>";
             		}
             		if($aosConfig->getConfig("resources") === "true"){
-            		    echo "<input type=\"checkbox\" name=\"cbResources\" value=\"Resources\" id=\"cbResources\" CHECKED >&nbsp;Resource Coordinator<br>";
+            		    echo "<tr><td><input type=\"checkbox\" name=\"cbResources\" value=\"Resources\" id=\"cbResources\" CHECKED>&nbsp;Resources</td>";
+            		    echo "<td><input type=\"text\" name=\"tbResources\" value=\"" . $aosConfig->getDisplayString("resources") . "\"></td></tr>";
             		}else{
-            		    echo "<input type=\"checkbox\" name=\"cbResources\" value=\"Resources\" id=\"cbResources\">&nbsp;Resource Coordinator<br>";
+            		    echo "<tr><td><input type=\"checkbox\" name=\"cbResources\" value=\"Resources\" id=\"cbResources\">&nbsp;Resources</td>";
+            		    echo "<td><input type=\"text\" name=\"tbResources\" value=\"" . $aosConfig->getDisplayString("resources") . "\"></td></tr>";
             		}
             		if($aosConfig->getConfig("meal") === "true"){
-            		  echo "<input type=\"checkbox\" name=\"cbMeal\" value=\"Meal\" id=\"cbMeal\" CHECKED>&nbsp;Meal attendance<br>";
+            		    echo "<tr><td><input type=\"checkbox\" name=\"cbMeal\" value=\"Meal\" id=\"cbMeal\" CHECKED>&nbsp;Meal attendance&nbsp;</td>";
+            		    echo "<td>&nbsp;&nbsp;N/A</td></tr>";
             		}else{
-            		    echo "<input type=\"checkbox\" name=\"cbMeal\" value=\"Meal\" id=\"cbMeal\" >&nbsp;Meal attendance<br>";
+            		    echo "<tr><td><input type=\"checkbox\" name=\"cbMeal\" value=\"Meal\" id=\"cbMeal\">&nbsp;Meal attendance</td>";
+            		    echo "<td>&nbsp;&nbsp;N/A</td></tr>";
             		}
             		if($aosConfig->getConfig("mealFac") === "true"){
-            		    echo "<input type=\"checkbox\" name=\"cbMealFac\" value=\"MealFac\" id=\"cbMealFac\" CHECKED>&nbsp;Meal Coordinator<br>";
+            		    echo "<tr><td><input type=\"checkbox\" name=\"cbMealFac\" value=\"MealFac\" id=\"cbResources\" CHECKED>&nbsp;Meal Coordiator</td>";
+            		    echo "<td><input type=\"text\" name=\"tbMealFac\" value=\"" . $aosConfig->getDisplayString("mealFac") . "\"></td></tr>";
             		}else{
-            		    echo "<input type=\"checkbox\" name=\"cbMealFac\" value=\"MealFac\" id=\"cbMealFac\" >&nbsp;Meal Coordinator<br>";
+            		    echo "<tr><td><input type=\"checkbox\" name=\"cbMealFac\" value=\"MealFac\" id=\"cbMealFac\">&nbsp;Meal Facilitator</td>";
+            		    echo "<td><input type=\"text\" name=\"tbMealFac\" value=\"" . $aosConfig->getDisplayString("mealFac") . "\"></td></tr>";
             		}
             		if($aosConfig->getConfig("transportation") === "true"){
-            		    echo "<input type=\"checkbox\" name=\"cbTransportation\" value=\"Transportation\" id=\"cbTransportation\" CHECKED>&nbsp;Transportation<br>";
+            		    echo "<tr><td><input type=\"checkbox\" name=\"cbTransportation\" value=\"Transportation\" id=\"cbTransportation\" CHECKED>&nbsp;transportation</td>";
+            		    echo "<td><input type=\"text\" name=\"tbTransportation\" value=\"" . $aosConfig->getDisplayString("transportation") . "\"></td></tr>";
             		}else{
-            		    echo "<input type=\"checkbox\" name=\"cbTransportation\" value=\"Transportation\" id=\"cbTransportation\" >&nbsp;Transportation<br>";
+            		    echo "<tr><td><input type=\"checkbox\" name=\"cbTransportation\" value=\"Transportation\" id=\"cbTransportation\">&nbsp;transportation</td>";
+            		    echo "<td><input type=\"text\" name=\"tbTransportation\" value=\"" . $aosConfig->getDisplayString("transportation") . "\"></td></tr>";
             		}
+            		echo "</table>";
             		?>
                     </p>
                   </div>
@@ -148,36 +167,51 @@ $mtrConfig->getLatestConfig();
                     <p>
                     These are the items related to the actual meeting:<br/>
                     <?php 
+                        echo "<table>";
+                        echo "<tr><td>Configuration</td><td>Display Text</td></tr>";
                         if($aosConfig->getConfig("reader") === "true"){
-                            echo "<input type=\"checkbox\" name=\"cbReaders\" value=\"Readers\" id=\"cbReaders\" CHECKED>&nbsp;Principle/Step Readers<br>";
+                            echo "<tr><td><input type=\"checkbox\" name=\"cbReaders\" value=\"Readers\" id=\"cbReaders\" CHECKED>&nbsp;Readers</td>";
+                            echo "<td><input type=\"text\" name=\"tbReaders\" value=\"" . $aosConfig->getDisplayString("reader") . "\"></td></tr>";
                         }else{
-                            echo "<input type=\"checkbox\" name=\"cbReaders\" value=\"Readers\" id=\"cbReaders\" >&nbsp;Principle/Step Readers<br>";
+                            echo "<tr><td><input type=\"checkbox\" name=\"cbReaders\" value=\"Readers\" id=\"cbReaders\" >&nbsp;Readers</td>";
+                            echo "<td><input type=\"text\" name=\"tbReaders\" value=\"" . $aosConfig->getDisplayString("reader") . "\"></td></tr>";
                         }
                         if($aosConfig->getConfig("announcements") === "true"){
-                            echo "<input type=\"checkbox\" name=\"cbAnnouncements\" value=\"Announcements\" id=\"cbAnnouncements\" CHECKED>&nbsp;Announcements<br>";
+                            echo "<tr><td><input type=\"checkbox\" name=\"cbAnnouncements\" value=\"Announcements\" id=\"cbAnnouncements\" CHECKED>&nbsp;Announcements</td>";
+                            echo "<td><input type=\"text\" name=\"tbAnnouncements\" value=\"" . $aosConfig->getDisplayString("announcements") . "\"></td></tr>";
                         }else{
-                            echo "<input type=\"checkbox\" name=\"cbAnnouncements\" value=\"Announcements\" id=\"cbAnnouncements\" >&nbsp;Announcements<br>";
+                            echo "<tr><td><input type=\"checkbox\" name=\"cbAnnouncements\" value=\"Announcements\" id=\"cbAnnouncements\">&nbsp;Announcements</td>";
+                            echo "<td><input type=\"text\" name=\"tbAnnouncements\" value=\"" . $aosConfig->getDisplayString("announcements") . "\"></td></tr>";
                         }
                         if($aosConfig->getConfig("chips") === "true"){
-                            echo "<input type=\"checkbox\" name=\"cbChips\" value=\"Chips\" id=\"cbChips\" CHECKED>&nbsp;Chip Ceremony<br>";
+                            echo "<tr><td><input type=\"checkbox\" name=\"cbChips\" value=\"Chips\" id=\"cbChips\" CHECKED>&nbsp;Chip Ceremony</td>";
+                            echo "<td><input type=\"text\" name=\"tbChips\" value=\"" . $aosConfig->getDisplayString("chips") . "\"></td></tr>";
                         }else{
-                            echo "<input type=\"checkbox\" name=\"cbChips\" value=\"Chips\" id=\"cbChips\" >&nbsp;Chip Ceremony<br>";
+                            echo "<tr><td><input type=\"checkbox\" name=\"cbChips\" value=\"Chips\" id=\"cbChips\">&nbsp;Chip Ceremony</td>";
+                            echo "<td><input type=\"text\" name=\"tbChips\" value=\"" . $aosConfig->getDisplayString("chips") . "\"></td></tr>";
                         }
                         if($aosConfig->getConfig("donations") === "true"){
-                            echo "<input type=\"checkbox\" name=\"cbDonations\" value=\"Donations\" id=\"cbDonations\" CHECKED>&nbsp;Donations<br>";
+                            echo "<tr><td><input type=\"checkbox\" name=\"cbDonations\" value=\"Donations\" id=\"cbDonations\" CHECKED>&nbsp;Donations&nbsp;</td>";
+                            echo "<td>&nbsp;&nbsp;N/A</td></tr>";
                         }else{
-                            echo "<input type=\"checkbox\" name=\"cbDonations\" value=\"Donations\" id=\"cbDonations\" >&nbsp;Donations<br>";
+                            echo "<tr><td><input type=\"checkbox\" name=\"cbDonations\" value=\"Donations\" id=\"cbDonations\" >&nbsp;Donations&nbsp;</td>";
+                            echo "<td>&nbsp;&nbsp;N/A</td></tr>";
                         }
                         if($aosConfig->getConfig("serenity") === "true"){
-                            echo "<input type=\"checkbox\" name=\"cbSerenity\" value=\"Serenity\" id=\"cbSerenity\" CHECKED>&nbsp;Serenity Prayer<br>";
+                            echo "<tr><td><input type=\"checkbox\" name=\"cbSerenity\" value=\"Serenity\" id=\"cbSerenity\" CHECKED>&nbsp;Serenity Prayer</td>";
+                            echo "<td><input type=\"text\" name=\"tbSerenity\" value=\"" . $aosConfig->getDisplayString("serenity") . "\"></td></tr>";
                         }else{
-                            echo "<input type=\"checkbox\" name=\"cbSerenity\" value=\"Serenity\" id=\"cbSerenity\" >&nbsp;Serenity Prayer<br>";
+                            echo "<tr><td><input type=\"checkbox\" name=\"cbSerenity\" value=\"Serenity\" id=\"cbSerenity\" >&nbsp;Serenity Prayer</td>";
+                            echo "<td><input type=\"text\" name=\"tbSerenity\" value=\"" . $aosConfig->getDisplayString("serenity") . "\"></td></tr>";
                         }
                         if($aosConfig->getConfig("newcomers") === "true"){
-                            echo "<input type=\"checkbox\" name=\"cbNewcomers\" value=\"Newcomers\" id=\"cbNewcomers\" CHECKED>&nbsp;Newcomers Facilitator<br>";
+                            echo "<tr><td><input type=\"checkbox\" name=\"cbNewcomers\" value=\"Newcomers\" id=\"cbNewcomers\" CHECKED>&nbsp;Newcomers</td>";
+                            echo "<td><input type=\"text\" name=\"tbNewcomers\" value=\"" . $aosConfig->getDisplayString("newcomers") . "\"></td></tr>";
                         }else{
-                            echo "<input type=\"checkbox\" name=\"cbNewcomers\" value=\"Newcomers\" id=\"cbNewcomers\" >&nbsp;Newcomers Facilitator<br>";
+                            echo "<tr><td><input type=\"checkbox\" name=\"cbNewcomers\" value=\"Newcomers\" id=\"cbNewcomers\" >&nbsp;Newcomers</td>";
+                            echo "<td><input type=\"text\" name=\"tbNewcomers\" value=\"" . $aosConfig->getDisplayString("newcomers") . "\"></td></tr>";
                         }
+                        echo "</table>";
                     ?>
                     </p>
                   </div>
@@ -188,36 +222,53 @@ $mtrConfig->getLatestConfig();
                     </p>
                     <p>
                     <?php 
-                    if($aosConfig->getConfig("nursery") === "true"){
-                            echo "<input type=\"checkbox\" name=\"cbNursery\" value=\"Nursery\" id=\"cbNursery\" CHECKED>&nbsp;Nursery Numbers<br/>";
+                        echo "<table>";
+                        echo "<tr><td>Configuration</td><td>Display Text</td></tr>";
+                    
+                        if($aosConfig->getConfig("nursery") === "true"){
+                            echo "<tr><td><input type=\"checkbox\" name=\"cbNursery\" value=\"Nursery\" id=\"cbNursery\" CHECKED>&nbsp;Nursery Count&nbsp;</td>";
+                            echo "<td>&nbsp;&nbsp;N/A</td></tr>";
                         }else{
-                            echo "<input type=\"checkbox\" name=\"cbNursery\" value=\"Nursery\" id=\"cbNursery\" >&nbsp;Nursery Numbers<br/>";
+                            echo "<tr><td><input type=\"checkbox\" name=\"cbNursery\" value=\"Nursery\" id=\"cbNursery\" >&nbsp;Nursery Count&nbsp;</td>";
+                            echo "<td>&nbsp;&nbsp;N/A</td></tr>";
                         }
                         if($aosConfig->getConfig("nurseryFac") === "true"){
-                            echo "<input type=\"checkbox\" name=\"cbNurseryFac\" value=\"NurseryFac\" id=\"cbNurseryFac\" CHECKED>&nbsp;Nursery Contacts<hr/>";
+                            echo "<tr><td><input type=\"checkbox\" name=\"cbNurseryFac\" value=\"NurseryFac\" id=\"cbNursery\" CHECKED>&nbsp;Nursery facilitator</td>";
+                            echo "<td><input type=\"text\" name=\"tbNurseryFac\" value=\"" . $aosConfig->getDisplayString("nurseryFac") . "\"></td></tr>";
                         }else{
-                            echo "<input type=\"checkbox\" name=\"cbNurseryFac\" value=\"NurseryFac\" id=\"cbNurseryFac\" >&nbsp;Nursery Contacts<hr/>";
+                            echo "<tr><td><input type=\"checkbox\" name=\"cbNurseryFac\" value=\"NurseryFac\" id=\"cbNursery\" >&nbsp;Nursery facilitator</td>";
+                            echo "<td><input type=\"text\" name=\"tbNurseryFac\" value=\"" . $aosConfig->getDisplayString("nurseryFac") . "\"></td></tr>";
                         }
                         if($aosConfig->getConfig("children") === "true"){
-                            echo "<input type=\"checkbox\" name=\"cbChildren\" value=\"Children\" id=\"cbChildren\" CHECKED>&nbsp;Children Numbers<br/>";
+                            echo "<tr><td><input type=\"checkbox\" name=\"cbChildren\" value=\"Children\" id=\"cbChildren\" CHECKED>&nbsp;Children Count&nbsp;</td>";
+                            echo "<td>&nbsp;&nbsp;N/A</td></tr>";
                         }else{
-                            echo "<input type=\"checkbox\" name=\"cbChildren\" value=\"Children\" id=\"cbChildren\" >&nbsp;Children Numbers<br/>";
+                            echo "<tr><td><input type=\"checkbox\" name=\"cbChildren\" value=\"Children\" id=\"cbChildren\" CHECKED>&nbsp;Children Count&nbsp;</td>";
+                            echo "<td>&nbsp;&nbsp;N/A</td></tr>";
                         }
                         if($aosConfig->getConfig("childrenFac") === "true"){
-                            echo "<input type=\"checkbox\" name=\"cbChildrenFac\" value=\"ChildrenFac\" id=\"cbChildrenFac\" CHECKED>&nbsp;Children Contacts<hr/>";
+                            echo "<tr><td><input type=\"checkbox\" name=\"cbChildrenFac\" value=\"ChildrenFac\" id=\"cbChildrenFac\" CHECKED>&nbsp;Children Fac</td>";
+                            echo "<td><input type=\"text\" name=\"tbChildrenFac\" value=\"" . $aosConfig->getDisplayString("childrenFac") . "\"></td></tr>";
                         }else{
-                            echo "<input type=\"checkbox\" name=\"cbChildrenFac\" value=\"ChildrenFac\" id=\"cbChildrenFac\" >&nbsp;Children Contacts<hr/>";
+                            echo "<tr><td><input type=\"checkbox\" name=\"cbChildrenFac\" value=\"ChildrenFac\" id=\"cbChildrenFac\" >&nbsp;Children Fac</td>";
+                            echo "<td><input type=\"text\" name=\"tbChildrenFac\" value=\"" . $aosConfig->getDisplayString("childrenFac") . "\"></td></tr>";
                         }
                         if($aosConfig->getConfig("youth") === "true"){
-                            echo "<input type=\"checkbox\" name=\"cbYouth\" value=\"Youth\" id=\"cbYouth\" CHECKED>&nbsp;Youth Numbers<br/>";
+                            echo "<tr><td><input type=\"checkbox\" name=\"cbYouth\" value=\"Youth\" id=\"cbYouth\" CHECKED>&nbsp;Youth Count&nbsp;</td>";
+                            echo "<td>&nbsp;&nbsp;N/A</td></tr>";
                         }else{
-                            echo "<input type=\"checkbox\" name=\"cbYouth\" value=\"Youth\" id=\"cbYouth\" >&nbsp;Youth Numbers<br/>";
+                            echo "<tr><td><input type=\"checkbox\" name=\"cbYouth\" value=\"Youth\" id=\"cbYouth\" >&nbsp;Youth Count&nbsp;</td>";
+                            echo "<td>&nbsp;&nbsp;N/A</td></tr>";
                         }
                         if($aosConfig->getConfig("youthFac") === "true"){
-                            echo "<input type=\"checkbox\" name=\"cbYouthFac\" value=\"YouthFac\" id=\"cbYouthFac\" CHECKED>&nbsp;Youth Contacts<hr/>";
+                            echo "<tr><td><input type=\"checkbox\" name=\"cbYouthFac\" value=\"YouthFac\" id=\"cbYouthFac\" CHECKED>&nbsp;Youth facilitator</td>";
+                            echo "<td><input type=\"text\" name=\"tbYouthFac\" value=\"" . $aosConfig->getDisplayString("youthFac") . "\"></td></tr>";
                         }else{
-                            echo "<input type=\"checkbox\" name=\"cbYouthFac\" value=\"YouthFac\" id=\"cbYouthFac\" >&nbsp;Youth Contacts<hr/>";
+                            
+                            echo "<tr><td><input type=\"checkbox\" name=\"cbYouthFac\" value=\"YouthFac\" id=\"cbYouthFac\" >&nbsp;Youth facilitator</td>";
+                            echo "<td><input type=\"text\" name=\"tbYouthFac\" value=\"" . $aosConfig->getDisplayString("youthFac") . "\"></td></tr>";
                         }
+                        echo "</table>";
                     ?>
                     </p>
                   </div>
