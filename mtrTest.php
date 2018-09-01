@@ -38,6 +38,10 @@ $aosConfig->showConfig();
 //==========================================
 
 
+=======
+$aosConfig->loadConfigFromDB;
+$aosConfig->showConfig();
+
 // $aosConfig->getConfig("teaching");
 // $aosConfig->checkBConfig("meal");
 // $aosConfig->checkBConfig("chips");
