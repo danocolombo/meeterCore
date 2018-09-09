@@ -10,7 +10,7 @@
  * table in column AOS
  */
 
-class mConfig{
+class pConfig{
     public $AOS = array();      //user values
     public $systemAOS = array(); // system AOS values;
     public $displayAOS = array();
@@ -26,9 +26,29 @@ class mConfig{
     public function showConfig(){
         var_dump($this->AOS);
     }
+    public function showNewAndUser(){
+        echo "<strong>NEW</strong><br/>";
+        var_dump($this->systemAOS);
+        echo "<br/>";
+        echo "<strong>LEGACY</strong><br/>";
+        var_dump($this->AOS);
+        echo "<br/>";
+    }
 
     public function doesSettingExist($s){
-        if(array_key_exists($s, $this->AOS)){
+        if(sizeof($this->AOS)>1){
+            if(array_key_exists($s, $this->AOS)){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
+    
+    public function legacySettingInSystemAOS($s){
+        if(array_key_exists($s, $this->systemAOS)){
             return true;
         }else{
             return false;
@@ -124,12 +144,15 @@ class mConfig{
         }
         $connection->close();
         unset($this->AOS);
-        $this->AOS = array();
-        
-        $ref = explode("|", $systemAOS);
-        for($il = 0; $il< sizeof($ref); $il++){
-            $pair = explode(":", $ref[$il]);
-            $this->AOS[$pair[0]] = $pair[1];
+        if(!empty($systemAOS)){
+//             echo "wrong<br/>";
+            $this->AOS = array();
+            
+            $ref = explode("|", $systemAOS);
+            for($il = 0; $il< sizeof($ref); $il++){
+                $pair = explode(":", $ref[$il]);
+                $this->AOS[$pair[0]] = $pair[1];
+            }
         }
         
     }
@@ -231,4 +254,4 @@ class mConfig{
         }
     }
 }
-$aosPeepConfig = new mConfig();
+$aosPeepConfig = new pConfig();

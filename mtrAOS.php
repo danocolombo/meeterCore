@@ -1,20 +1,33 @@
 <?php
-
+/* ------------------------------------------------
+ *  mtrAOS.php
+ *  
+ *  1.0 read from database table Meeter the AOS value
+ *       this was merely key:value definition
+ *       
+ *   1.1 this update gets the data as before, but now the
+ *        values are extended to provide display info
+ *        key:value#displayValue
+ *  
+ */
 
 class mConfig{
     public $AOS = array();      //system values
     public $peepAOS = array();  //user values
+    public $displayAOS = array();
     
-    public function getConfig($setting){
-        if(array_key_exists($setting, $this->AOS)){
-            return $this->AOS[$setting];
-        }else{
-            echo "NO, we don\'t have " . $setting . "<br/>";
-            return false;
-        }
-    }
+//     public function getConfig($setting){
+//         if(array_key_exists($setting, $this->AOS)){
+//             return $this->AOS[$setting];
+//         }else{
+//             echo "NO, we don\'t have " . $setting . "<br/>";
+//             return false;
+//         }
+//     }
     public function showConfig(){
-        var_dump($this->AOS);
+        foreach($this->AOS as $key => $value){
+            echo "$value : $value<br/>";
+        }
     }
 
     public function doesSettingExist($s){
@@ -24,31 +37,77 @@ class mConfig{
             return false;
         }
     }
-    public function doesPeepSettingExist($s){
-        if(array_key_exists($s, $this->peepAOS)){
-            return true;
-        }else{
-            return false;
-        }
-    }
+//     public function doesPeepSettingExist($s){
+//         if(array_key_exists($s, $this->peepAOS)){
+//             return true;
+//         }else{
+//             return false;
+//         }
+//     }
     
     public function setConfigToFalse($s){
-        $this->AOS[$s] = "false";
-    }
-    public function setPeepConfigToFalse($s){
-        $this->peepAOS[$s] = "false";
+        // get current value
+        $parts = explode("#", $this->AOS[$s]);
+        $newValue = "false#" . $parts[1];
+        $this->AOS[$s] = $newValue;
     }
     public function setConfigToTrue($s){
-        $this->AOS[$s] = "true";
+        // get current value
+        $parts = explode("#", $this->AOS[$s]);
+        $newValue = "true#" . $parts[1]; 
+        $this->AOS[$s] = $newValue;
     }
-    public function setPeepConfigToTrue($s){
-        $this->peepAOS[$s] = "true";
+    public function canVolunteer($k){
+        // we have the special feature that if displayvalue is NOSHOW return false
+        $parts = explode("#", $this->AOS[$k]);
+        if($parts[1] == "NOSHOW"){
+            return false;
+        }else{
+            return true;
+        }
+        
+        
     }
-    public function addConfig($s, $v){
-        $this->AOS[$s] = $v;
+    
+//     public function addConfig($s, $v){
+//         $this->AOS[$s] = $v;
+//     }
+    
+    public function setDisplayString($k, $s){
+        //get the current config setting
+        $parts = explode("#", $this->AOS[$k]);
+        $newValue = $parts[0] . "#$s";
+        $this->AOS[$k] = $newValue;
     }
-    public function addPeepConfig($s, $v){
-        $this->peepAOS[$s] = $v;
+    
+    public function getConfig($k){
+        //this will return the display string from the array...
+        // xxxx:yyyy#zzz
+        // xxx = key
+        // yyy = value
+        // zzz = display string
+        $tmp = explode("#", $this->AOS[$k]);
+        // =====
+        // 0 = value
+        // 1 = display value
+//         echo "\$tmp[0] = $tmp[0]<br/>";
+//         echo "\$tmp[1] = $tmp[1]<br/>";
+        return $tmp[0];
+    }
+    public function getDisplayString($k){
+        //this will return the display string from the array...
+        // xxxx:yyyy#zzz
+        // xxx = key
+        // yyy = value
+        // zzz = display string
+        
+        $tmp = explode("#", $this->AOS[$k]);
+        // ===== 
+        // 0 = value
+        // 1 = display value
+//         echo "\$tmp[0] = $tmp[0]<br/>";
+//         echo "\$tmp[1] = $tmp[1]<br/>";
+        return $tmp[1];
     }
     public function loadConfigFromDB(){
         //===========================================================================

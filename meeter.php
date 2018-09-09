@@ -1791,6 +1791,7 @@ class MeeterPeep{
             $this->setReasonsToServe($row['ReasonsToServe']);
             $this->setInterests($row['Interests']);
             $this->setAOS($row['AOS']);
+            $this->setNotes($row['Notes']);
             
             
         }
@@ -1942,7 +1943,7 @@ class MeeterPeep{
         $this->setAOS($s);
     }
 
-    
+    // end MeeterPeep Class
 }
 $thePeep = new MeeterPeep();
 
